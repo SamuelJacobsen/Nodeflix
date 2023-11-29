@@ -49,5 +49,14 @@ module.exports = class MovieController {
         } catch (error) {
             res.status(500).json({message: error})
         }
+    }    
+    
+    static async getAll(req, res){
+        //manda os produtos mais novos
+        const movies = await Movie.find().sort('-createdAt')
+
+        res.status(200).json({
+            movies: movies 
+        })
     }
 }

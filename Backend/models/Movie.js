@@ -21,4 +21,4 @@ const Movie = mongoose.model(
     }, { timestamps: true },
     )
 )
-module.exports = Product
+module.exports = Movie

@@ -15,7 +15,12 @@ const Movie = mongoose.model(
         dataLancamento: {
             type: Date,
             required: true
-        }
+        },
+        User: {
+            //alteração para salvar somente o id do usuario 
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        },
 
 
     }, { timestamps: true },

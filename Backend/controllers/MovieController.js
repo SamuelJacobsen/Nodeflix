@@ -1,5 +1,6 @@
 const Movie = require('../models/Movie')
 const { default: mongoose } = require('mongoose')
+const { ObjectId } = require('mongodb')
 
 const getToken = require("../helpers/get-token")
 const getUserByToken = require("../helpers/get-user-by-token")
@@ -68,7 +69,7 @@ module.exports = class MovieController {
             res.status(422).json({ message: "Id Invalido" })
             return
         }
-        //verifica se o produto existe
+        //verifica se o filme existe
         const movie = await Movie.findById(id)
 
         if (!movie) {
@@ -76,6 +77,24 @@ module.exports = class MovieController {
         }
 
         res.status(200).json({ movie })
+
+    }
+    static async removeMovieById(req, res) {
+        const id = req.params.id
+
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            res.status(422).json({ message: "Id Invalido" })
+            return
+        }
+
+        //verifica se o filme existe
+        const movie = await Movie.findOne({ _id: id })
+
+        if (!movie) {
+            res.status(404).json({ message: 'filme não encontrado ' })
+        }
+        await Movie.findByIdAndDelete(id)
+        res.status(200).json({ message: 'filme removido' })
 
     }
 }

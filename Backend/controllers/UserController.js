@@ -179,7 +179,7 @@ module.exports = class UserController {
         }
         try {
             //return user updated data
-             await User.findOneAndUpdate(
+            await User.findOneAndUpdate(
                 { _id: user.id },
                 { $set: user },
                 { new: true },

@@ -1,4 +1,4 @@
-const jwt =  require('jsonwebtoken')
+const jwt = require('jsonwebtoken')
 
 const User = require("../models/User")
 
@@ -11,7 +11,7 @@ const getUserByToken = async (token) => {
 
     const userId = decoded.id
 
-    const user = await User.findOne({_id: userId})
+    const user = await User.findOne({ _id: userId })
 
     return user
 }

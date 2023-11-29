@@ -4,7 +4,7 @@ const { Schema } = mongoose
 const Movie = mongoose.model(
     'Movie',
     new Schema({
-        nome: {
+        name: {
             type: String,
             required: true
         },

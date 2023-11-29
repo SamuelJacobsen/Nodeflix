@@ -23,7 +23,11 @@ const User = mongoose.model(
         phone: {
             type: String,
             required: true
-        },
+        }, 
+        adm: {
+            type: Boolean,
+            required: true
+        }
     }, {timestamps: true},
     )
 )

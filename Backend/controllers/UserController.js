@@ -133,49 +133,63 @@ module.exports = class UserController {
         }
 
 
-            const { name, email, phone, password, confirmpassword } = req.body
+        const { name, email, phone, password, confirmpassword } = req.body
 
-            // let image = ''
+        let image = ''
 
-            //validations
-            if (!name) {
-                res.status(422).json({ message: 'O nome é obrigatorio' })
-                return
-            }
-            user.name = name
+        //validations
+        if (!name) {
+            res.status(422).json({ message: 'O nome é obrigatorio' })
+            return
+        }
+        user.name = name
 
-            if (!email) {
-                res.status(422).json({ message: 'O email é obrigatorio' })
-                return
-            }
-            //valida se o usuario nao esta usando email cadastrado no sistema
-            const userExists = await User.findOne({ email: email })
-            if (user.email !== email && userExists) {
-                res.status(422).json({
-                    message: 'Por favor, utilize outro email!'
-                })
-                return
-            }
-            user.email = email
+        if (!email) {
+            res.status(422).json({ message: 'O email é obrigatorio' })
+            return
+        }
+        //valida se o usuario nao esta usando email cadastrado no sistema
+        const userExists = await User.findOne({ email: email })
+        if (user.email !== email && userExists) {
+            res.status(422).json({
+                message: 'Por favor, utilize outro email!'
+            })
+            return
+        }
+        user.email = email
 
-            if (!phone) {
-                res.status(422).json({ message: 'O telefone é obrigatorio' })
-                return
-            }
-            if (!password) {
-                res.status(422).json({ message: 'A senha é obrigatoria' })
-                return
-            }
-            if (!confirmpassword) {
-                res.status(422).json({ message: 'A confirmação de senha é obrigatoria' })
-                return
-            }
-            if (password !== confirmpassword) {
-                res.status(422).json({
-                    message: 'A senha e a confirmação de senha precisam ser iguais!',
-                })
-                return
-            }
+        if (!phone) {
+            res.status(422).json({ message: 'O telefone é obrigatorio' })
+            return
+        }
+        user.phone = phone
 
+        if (password !== confirmpassword) {
+            res.status(422).json({
+                message: 'As senhas não conferem!',
+            })
+            return
+        } else if (password === confirmpassword && password != null) {
+
+            //criando uma nova senha
+            const salt = await bcrypt.genSalt(6)
+            const passwordHash = await bcrypt.hash(password, salt)
+
+            user.password = passwordHash
+        }
+        try {
+            //return user updated data
+             await User.findOneAndUpdate(
+                { _id: user.id },
+                { $set: user },
+                { new: true },
+            )
+            res.status(200).json({
+                message: 'Usuario atualizado com sucesso!',
+            })
+        } catch {
+            res.status(500).json({ message: err })
+            return
         }
     }
+}

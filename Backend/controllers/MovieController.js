@@ -1,4 +1,5 @@
 const Movie = require('../models/Movie')
+const { default: mongoose } = require('mongoose')
 
 const getToken = require("../helpers/get-token")
 const getUserByToken = require("../helpers/get-user-by-token")
@@ -13,14 +14,14 @@ module.exports = class MovieController {
         const available = true
 
         //validations
-        if(!name){
-            res.status(422).json({message: "O nome é obrigatório!"})
+        if (!name) {
+            res.status(422).json({ message: "O nome é obrigatório!" })
         }
-        if(!sinopse){
-            res.status(422).json({message: "A sinopse é obrigatória!"})
+        if (!sinopse) {
+            res.status(422).json({ message: "A sinopse é obrigatória!" })
         }
-        if(!dataLancamento){
-            res.status(422).json({message: "A data de lançamento é obrigatória!"})
+        if (!dataLancamento) {
+            res.status(422).json({ message: "A data de lançamento é obrigatória!" })
         }
         //get Movie owner
         const token = getToken(req)
@@ -32,14 +33,14 @@ module.exports = class MovieController {
             name,
             sinopse,
             dataLancamento: dataLan,
-            user:{
+            user: {
                 _id: user.id,
                 name: user.name,
                 phone: user.phone,
             },
         })
 
-     
+
         try {
             const newMovie = await movie.save()
             res.status(201).json({
@@ -47,16 +48,34 @@ module.exports = class MovieController {
                 newMovie
             })
         } catch (error) {
-            res.status(500).json({message: error})
+            res.status(500).json({ message: error })
         }
-    }    
-    
-    static async getAll(req, res){
+    }
+
+    static async getAll(req, res) {
         //manda os produtos mais novos
         const movies = await Movie.find().sort('-createdAt')
 
         res.status(200).json({
-            movies: movies 
+            movies: movies
         })
+    }
+    static async getMovieById(req, res) {
+
+        const id = req.params.id
+
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            res.status(422).json({ message: "Id Invalido" })
+            return
+        }
+        //verifica se o produto existe
+        const movie = await Movie.findById(id)
+
+        if (!movie) {
+            res.status(404).json({ message: 'Filme não encontrado' })
+        }
+
+        res.status(200).json({ movie })
+
     }
 }

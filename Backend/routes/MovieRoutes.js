@@ -7,4 +7,5 @@ router.post('/create', verifyToken, MovieController.create)
 router.get('/', MovieController.getAll)
 router.get('/:id', MovieController.getMovieById)
 router.delete('/:id', verifyToken, MovieController.removeMovieById)
+router.patch('/:id', verifyToken, MovieController.updateMovie)
 module.exports = router

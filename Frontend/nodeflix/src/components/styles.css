@@ -1,0 +1,52 @@
+/* Seu arquivo de estilos personalizado */
+
+/* Fundo preto para a página */
+.black-background {
+    background-color: red;
+  }
+  
+  /* Estilização do cabeçalho */
+  .header {
+    background-color: red;
+    padding: 10px;
+  }
+  
+  /* Título vermelho centralizado */
+  .red-title {
+    text-align: center;
+    color: red;
+  }
+  
+  /* Estilização do card de login */
+  .login-card {
+    background-color: red;
+    width: 300px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Estilização dos campos de entrada */
+  .login-input {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+  }
+  
+  .login-input::placeholder {
+    color: white;
+  }
+  
+  /* Estilização do botão de login */
+  .login-button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: white;
+    color: red;
+    cursor: pointer;
+  }
+  

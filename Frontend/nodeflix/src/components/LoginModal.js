@@ -16,8 +16,8 @@ function LoginModal({ show, handleClose, handleLogin }) {
   };
 
   return (
-    <Modal show={show} onHide={handleClose} className="black-background">
-      <Modal.Header closeButton className="header bg-danger py-2">
+    <Modal show={show} onHide={handleClose}  backdrop="static" keyboard={false} className="black-background">
+      <Modal.Header  className="header bg-danger py-2">
         <Modal.Title className="text-center red-title">Login</Modal.Title>
       </Modal.Header>
       <Modal.Body>

@@ -54,8 +54,9 @@ function Home() {
   const fetchMovies = async () => {
     try {
       // Faz a requisição para obter a lista de filmes da API
-      const response = await api.get('/movies');
+      const response = await api.get('/');
       setMovies(response.data);
+      
     } catch (error) {
       console.error('Erro ao buscar filmes:', error);
     }

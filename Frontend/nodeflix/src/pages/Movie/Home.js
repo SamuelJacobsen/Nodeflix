@@ -97,6 +97,7 @@ function Home() {
     } catch (error) {
       console.error('Erro ao excluir filme:', error);
     }
+    
   };
 
   return (

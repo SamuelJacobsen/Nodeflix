@@ -109,7 +109,7 @@ function Home() {
   const handleDeleteMovie = async (movieId) => {
     try {
       await api.delete(`/movies/${movieId}`);
-      fetchMovies(); // Recarregar os filmes após a exclusão
+      fetchMovies(); 
     } catch (error) {
       console.error('Erro ao excluir filme:', error);
     }

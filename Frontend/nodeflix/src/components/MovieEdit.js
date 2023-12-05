@@ -22,6 +22,7 @@ function MovieEdit({ show, handleClose, movie, handleEditMovie }) {
     handleEditMovie(editedMovieCopy);
     handleClose();
   };
+  
 
   return (
     <Modal show={show} onHide={handleClose}>

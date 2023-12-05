@@ -9,15 +9,22 @@ function LoginModal({ show, handleClose, handleLogin }) {
   const handleEntrar = async () => {
     try {
       setError(null); // Limpa o erro ao tentar fazer login novamente
+
+      if (!email.trim() || !password.trim()) {
+        // Exibe campos vazios se estiverem vazios
+        return;
+      }
+
       await handleLogin(email, password);
     } catch (error) {
+      setPassword(''); // Limpa a senha ao falhar no login
       setError('Dados de login incorretos'); // Define a mensagem de erro
     }
   };
 
   return (
-    <Modal show={show} onHide={handleClose}  backdrop="static" keyboard={false} className="black-background">
-      <Modal.Header  className="header bg-danger py-2">
+    <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false} className="black-background">
+      <Modal.Header className="header bg-danger py-2">
         <Modal.Title className="text-center red-title">Login</Modal.Title>
       </Modal.Header>
       <Modal.Body>

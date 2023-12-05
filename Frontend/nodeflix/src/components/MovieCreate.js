@@ -2,21 +2,24 @@ import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 
 function MovieCreate({ show, handleClose, handleCreateMovie }) {
-  const [movieData, setMovieData] = useState({
+  const [newMovieData, setNewMovieData] = useState({
     name: '',
     sinopse: '',
     dataLancamento: ''
-
   });
 
-  const handleChange = (e) => {
+  const handleNewMovieDataChange = (e) => {
     const { name, value } = e.target;
-    setMovieData({ ...movieData, [name]: value });
+    setNewMovieData({ ...newMovieData, [name]: value });
   };
 
-  const handleSave = () => {
-    handleCreateMovie(movieData);
-    handleClose();
+  const handleSave = async () => {
+    try {
+      await handleCreateMovie(newMovieData);
+      handleClose();
+    } catch (error) {
+      console.error('Erro ao criar filme:', error);
+    }
   };
 
   return (
@@ -32,8 +35,8 @@ function MovieCreate({ show, handleClose, handleCreateMovie }) {
               type="text"
               placeholder="Nome do Filme"
               name="name"
-              value={movieData.name}
-              onChange={handleChange}
+              value={newMovieData.name}
+              onChange={handleNewMovieDataChange}
             />
           </Form.Group>
           <Form.Group controlId="formBasicSinopse">
@@ -43,8 +46,8 @@ function MovieCreate({ show, handleClose, handleCreateMovie }) {
               rows={3}
               placeholder="Sinopse do Filme"
               name="sinopse"
-              value={movieData.sinopse}
-              onChange={handleChange}
+              value={newMovieData.sinopse}
+              onChange={handleNewMovieDataChange}
             />
           </Form.Group>
           <Form.Group controlId="formBasicDataLancamento">
@@ -53,11 +56,10 @@ function MovieCreate({ show, handleClose, handleCreateMovie }) {
               type="date"
               placeholder="Data de Lançamento"
               name="dataLancamento"
-              value={movieData.dataLancamento}
-              onChange={handleChange}
+              value={newMovieData.dataLancamento}
+              onChange={handleNewMovieDataChange}
             />
           </Form.Group>
-          
         </Form>
       </Modal.Body>
       <Modal.Footer>

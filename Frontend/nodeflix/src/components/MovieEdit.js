@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 
 function MovieEdit({ show, handleClose, movie, handleEditMovie }) {
   const [editedMovie, setEditedMovie] = useState({ ...movie });
+
+  useEffect(() => {
+    // Atualiza o estado interno quando a propriedade 'movie' mudar
+    setEditedMovie({ ...movie });
+  }, [movie]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -10,8 +15,11 @@ function MovieEdit({ show, handleClose, movie, handleEditMovie }) {
   };
 
   const handleSaveChanges = () => {
-    // Chama a função de edição passando o filme editado
-    handleEditMovie(editedMovie);
+    // Convertendo a data para o formato ISO antes de enviar para o backend
+    const formattedDate = new Date(editedMovie.dataLancamento).toISOString();
+  
+    const editedMovieCopy = { ...editedMovie, dataLancamento: formattedDate };
+    handleEditMovie(editedMovieCopy);
     handleClose();
   };
 

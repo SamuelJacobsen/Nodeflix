@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Button } from 'react-bootstrap';
 
-function MovieCard({ movie, openModal, openEditModal }) {
+function MovieCard({ movie, openDetailsModal, openEditModal, handleDelete }) {
   const cardStyle = {
     backgroundColor: 'red',
     color: 'white',
@@ -11,13 +11,26 @@ function MovieCard({ movie, openModal, openEditModal }) {
     marginBottom: '10px',
   };
 
+  const handleDetailsClick = () => {
+    openDetailsModal(movie);
+  };
+
+  const handleEditClick = (event) => {
+    event.stopPropagation();
+    openEditModal(movie);
+  };
+
+  const handleDeleteClick = (event) => {
+    event.stopPropagation();
+    handleDelete(movie._id);
+  };
+
   return (
-    <Card className="movie-card" style={cardStyle}>
-      {/* Renderizar os detalhes do filme no card */}
+    <Card className="movie-card" style={cardStyle} onClick={handleDetailsClick}>
       <Card.Body>
         <Card.Title>{movie.name}</Card.Title>
-        <Button variant="primary" onClick={() => openModal(movie)}>Detalhes</Button>
-        <Button variant="secondary" onClick={() => openEditModal(movie)}>Editar</Button>
+        <Button variant="secondary" onClick={handleEditClick}>Editar</Button>
+        <Button variant="danger" onClick={handleDeleteClick}>Apagar</Button>
       </Card.Body>
     </Card>
   );

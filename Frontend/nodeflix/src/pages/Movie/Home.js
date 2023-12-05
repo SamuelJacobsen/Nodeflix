@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import LoginModal from '../../components/LoginModal';
 import MovieCard from '../../components/MovieCard';
-import MovieEdit from '../../components/MovieEdit';
+
 import MovieModal from '../../components/MovieModal';
 import MovieCreate from '../../components/MovieCreate';
 import SearchInput from '../../components/SearchInput';
@@ -15,9 +15,6 @@ function Home() {
   const [movies, setMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [showMovieModal, setShowMovieModal] = useState(false);
-  const [selectedMovie, setSelectedMovie] = useState(null);
-  const [showMovieEdit, setShowMovieEdit] = useState(false);
-  const [editedMovie, setEditedMovie] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedMovieDetails, setSelectedMovieDetails] = useState(null);
   useEffect(() => {
@@ -29,14 +26,7 @@ function Home() {
       fetchMovies();
     }
   }, []);
-  const handleEditMovie = async (editedData) => {
-    try {
-      fetchMovies();
-      setShowMovieEdit(false); // Fechar o modal de edição
-    } catch (error) {
-      console.error('Erro ao editar filme:', error);
-    }
-  };
+
   const handleLogin = async (email, password) => {
     try {
       // Faz a chamada para a rota de login passando email e senha
@@ -87,16 +77,10 @@ function Home() {
   const handleSearch = (searchTerm) => {
     setSearchTerm(searchTerm);
   };
-  const handleOpenEditModal = (movie) => {
-    setEditedMovie(movie);
-    setShowMovieEdit(true);
-    setShowMovieModal(false); // Esconder o modal de detalhes se estiver aberto
-  };
+
 
   const handleOpenModal = (movie) => {
-    setSelectedMovie(movie);
     setShowMovieModal(true);
-    setShowMovieEdit(false);
   };
   const handleAddMovie = () => {
     setShowMovieModal(true); // Abre o modal de criação de filme
@@ -109,14 +93,14 @@ function Home() {
   const handleDeleteMovie = async (movieId) => {
     try {
       await api.delete(`/movies/${movieId}`);
-      fetchMovies(); 
+      fetchMovies();
     } catch (error) {
       console.error('Erro ao excluir filme:', error);
     }
   };
 
   return (
-    <div style={{ height: '100vh', width: '100vw' }} className="container-fluid bg-dark">
+    <div style={{ height: '100%', width: '100%' }} className="container-fluid bg-dark">
       <LoginModal
         show={showLoginModal}
         handleClose={() => setShowLoginModal(false)}
@@ -125,12 +109,16 @@ function Home() {
 
       {loggedIn && (
         <div className="p-3">
-          <button onClick={handleLogout} className="btn btn-danger mb-3">
-            Logout
-          </button>
-          <button onClick={handleAddMovie} className="btn btn-danger mb-3">
-            Adicionar Filme
-          </button>
+          <div className="mb-3">
+            <button onClick={handleLogout} className="btn btn-danger">
+              Logout
+            </button>
+          </div>
+          <div className="mb-3">
+            <button onClick={handleAddMovie} className="btn btn-danger">
+              Adicionar Filme
+            </button>
+          </div>
           <SearchInput handleSearch={handleSearch} />
           {loggedIn && (
             <MovieModal
@@ -150,7 +138,6 @@ function Home() {
                   <MovieCard
                     movie={movie}
                     openModal={() => handleOpenModal(movie)}
-                    openEditModal={() => handleOpenEditModal(movie)}
                     openDetailsModal={() => handleOpenDetailsModal(movie)}
                     handleDelete={handleDeleteMovie}
                     className="card"
@@ -163,29 +150,20 @@ function Home() {
 
       {loggedIn && (
         <MovieModal
-          show={showMovieModal}
-          handleClose={() => setShowMovieModal(false)}
-          selectedMovie={selectedMovie}
-          className="card"
-        />
-      )}
-      {loggedIn && showMovieModal && (
-        <MovieCreate
-          show={showMovieModal}
-          handleClose={() => setShowMovieModal(false)}
-          handleCreateMovie={handleCreateMovie} // Passar a função para criar filmes
-        />
-      )}
-      {loggedIn && (
-        <MovieEdit
-          show={showMovieEdit}
-          handleClose={() => setShowMovieEdit(false)}
-          movie={editedMovie}
-          handleEditMovie={handleEditMovie}
+          show={showDetailsModal}
+          handleClose={() => setShowDetailsModal(false)}
+          selectedMovie={selectedMovieDetails}
           className="card"
         />
       )}
 
+      {loggedIn && showMovieModal && !showDetailsModal && (
+        <MovieCreate
+          show={showMovieModal}
+          handleClose={() => setShowMovieModal(false)}
+          handleCreateMovie={handleCreateMovie}
+        />
+      )}
     </div>
   );
 }

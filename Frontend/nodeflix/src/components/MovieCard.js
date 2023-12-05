@@ -15,11 +15,6 @@ function MovieCard({ movie, openDetailsModal, openEditModal, handleDelete }) {
     openDetailsModal(movie);
   };
 
-  const handleEditClick = (event) => {
-    event.stopPropagation();
-    openEditModal(movie);
-  };
-
   const handleDeleteClick = (event) => {
     event.stopPropagation();
     handleDelete(movie._id);
@@ -29,7 +24,6 @@ function MovieCard({ movie, openDetailsModal, openEditModal, handleDelete }) {
     <Card className="movie-card" style={cardStyle} onClick={handleDetailsClick}>
       <Card.Body>
         <Card.Title>{movie.name}</Card.Title>
-        <Button variant="secondary" onClick={handleEditClick}>Editar</Button>
         <Button variant="danger" onClick={handleDeleteClick}>Apagar</Button>
       </Card.Body>
     </Card>

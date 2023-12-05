@@ -20,12 +20,8 @@ const User = mongoose.model(
             type: String,
             required: true
         },
-        phone: {
+        confirmpassword:{
             type: String,
-            required: true
-        }, 
-        adm: {
-            type: Boolean,
             required: true
         }
     }, {timestamps: true},

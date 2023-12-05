@@ -15,6 +15,11 @@ function MovieCreate({ show, handleClose, handleCreateMovie }) {
 
   const handleSave = async () => {
     try {
+      if (!newMovieData.name || !newMovieData.sinopse || !newMovieData.dataLancamento) {
+        console.error('Por favor, preencha todos os campos obrigatórios.');
+        return;
+      }
+
       await handleCreateMovie(newMovieData);
       handleClose();
     } catch (error) {
@@ -27,20 +32,21 @@ function MovieCreate({ show, handleClose, handleCreateMovie }) {
       <Modal.Header closeButton>
         <Modal.Title>Adicionar Filme</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body style={{ backgroundColor: 'black', color: 'white' }}>
         <Form>
           <Form.Group controlId="formBasicName">
-            <Form.Label>Nome</Form.Label>
+            <Form.Label style={{ color: 'white' }}>Nome</Form.Label>
             <Form.Control
               type="text"
               placeholder="Nome do Filme"
               name="name"
               value={newMovieData.name}
               onChange={handleNewMovieDataChange}
+              style={{ backgroundColor: 'white', color: 'black' }}
             />
           </Form.Group>
           <Form.Group controlId="formBasicSinopse">
-            <Form.Label>Sinopse</Form.Label>
+            <Form.Label style={{ color: 'white' }}>Sinopse</Form.Label>
             <Form.Control
               as="textarea"
               rows={3}
@@ -48,25 +54,32 @@ function MovieCreate({ show, handleClose, handleCreateMovie }) {
               name="sinopse"
               value={newMovieData.sinopse}
               onChange={handleNewMovieDataChange}
+              style={{ backgroundColor: 'white', color: 'black' }}
             />
           </Form.Group>
           <Form.Group controlId="formBasicDataLancamento">
-            <Form.Label>Data de Lançamento</Form.Label>
+            <Form.Label style={{ color: 'white' }}>Data de Lançamento</Form.Label>
             <Form.Control
               type="date"
               placeholder="Data de Lançamento"
               name="dataLancamento"
               value={newMovieData.dataLancamento}
               onChange={handleNewMovieDataChange}
+              style={{ backgroundColor: 'white', color: 'black' }}
             />
           </Form.Group>
         </Form>
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+      <Modal.Footer style={{ backgroundColor: 'black' }}>
+        <Button variant="secondary" onClick={handleClose} style={{ backgroundColor: 'red' }}>
           Fechar
         </Button>
-        <Button variant="primary" onClick={handleSave}>
+        <Button
+          variant="primary"
+          onClick={handleSave}
+          style={{ backgroundColor: 'red' }}
+          disabled={!newMovieData.name || !newMovieData.sinopse || !newMovieData.dataLancamento}
+        >
           Adicionar
         </Button>
       </Modal.Footer>

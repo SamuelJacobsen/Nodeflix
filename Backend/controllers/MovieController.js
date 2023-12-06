@@ -4,6 +4,7 @@ const { ObjectId } = require('mongodb')
 
 const getToken = require("../helpers/get-token")
 const getUserByToken = require("../helpers/get-user-by-token")
+const sanitizeHtml = require('sanitize-html');
 
 module.exports = class MovieController {
 
@@ -30,10 +31,16 @@ module.exports = class MovieController {
 
         const dataLan = new Date(dataLancamento)
         //create a Movie
+        const sanitizedMovieData = {
+            name: sanitizeHtml(name),
+            sinopse: sanitizeHtml(sinopse),
+            dataLancamento: sanitizeHtml(dataLancamento)
+          };
+      
         const movie = new Movie({
-            name,
-            sinopse,
-            dataLancamento: dataLan,
+            name: sanitizedMovieData.name,
+            sinopse: sanitizedMovieData.sinopse,
+            dataLancamento: sanitizedMovieData.dataLancamento,
             user: {
                 _id: user.id,
                 name: user.name,
@@ -114,17 +121,17 @@ module.exports = class MovieController {
         if (!name) {
             res.status(422).json({ message: "O nome é obrigatório!" })
         } else {
-            updateData.name = name
+            updateData.name = sanitizeHtml(name);
         }
         if (!sinopse) {
             res.status(422).json({ message: "A sinopse é obrigatória!" })
         } else {
-            updateData.sinopse = sinopse
+            updateData.sinopse = sanitizeHtml(sinopse);
         }
         if (!dataLancamento) {
             res.status(422).json({ message: "A data de lançamento é obrigatória!" })
         } else {
-            updateData.dataLancamento = dataLancamento
+            updateData.dataLancamento = sanitizeHtml(dataLancamento);
         }
 
         // Atualiza os dados do filme no banco de dados

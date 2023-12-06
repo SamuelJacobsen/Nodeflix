@@ -1,9 +1,9 @@
 const express = require('express');
-const cors = require('cors'); // Importe o pacote CORS
+const cors = require('cors'); 
 
 const app = express();
 
-app.use(cors()); // Configuração do CORS para permitir todas as origens
+app.use(cors()); 
 
 app.use(express.json());
 

@@ -142,4 +142,19 @@ module.exports = class MovieController {
         res.status(500).json({ message: 'Ocorreu um erro ao atualizar o filme' })
 
     }
+    
+    static async search(req, res) {
+        try {
+            const { title } = req.query;
+
+            // Realiza a busca dos filmes pelo título
+            const movies = await Movie.find({
+                name: { $regex: new RegExp(title, 'i') }
+            });
+
+            res.status(200).json({ movies });
+        } catch (error) {
+            res.status(500).json({ message: 'Erro ao pesquisar filmes', error });
+        }
+    }
 }

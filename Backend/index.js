@@ -1,5 +1,3 @@
-const https = require('https');
-const fs = require('fs');
 const express = require('express');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
@@ -8,6 +6,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutos
@@ -23,13 +22,6 @@ const MovieRoutes = require('./routes/MovieRoutes');
 app.use('/users', UserRoutes);
 app.use('/movies', MovieRoutes);
 
-const options = {
-    key: fs.readFileSync("C:\Users\samue\Documents\https\key.pem"),
-    cert: fs.readFileSync("C:\Users\samue\Documents\https\csr.pem")
-  };
-
-const httpsServer = https.createServer(options, app);
-
-httpsServer.listen(8080, () => {
-  console.log('Servidor HTTPS está rodando na porta 8080');
+app.listen(8080, () => {
+  console.log('Servidor está rodando na porta 8080');
 });

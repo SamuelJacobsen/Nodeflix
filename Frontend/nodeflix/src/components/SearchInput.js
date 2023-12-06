@@ -4,6 +4,7 @@ const SearchInput = ({ handleSearch }) => {
   const handleChange = (e) => {
     const searchTerm = e.target.value;
     handleSearch(searchTerm);
+    
   };
 
   return (

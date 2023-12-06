@@ -43,16 +43,15 @@ function Home() {
     }
   };
 
-  const fetchMovies = async () => {
+  const fetchMovies = async (searchTerm = '') => {
     try {
-      // Faz a requisição para obter a lista de filmes da API
-      const response = await api.get('/movies');
+      const response = await api.get(`/movies?title=${searchTerm}`);
       setMovies(response.data.movies);
-
     } catch (error) {
       console.error('Erro ao buscar filmes:', error);
     }
   };
+  
 
   const handleCreateMovie = async (movieData) => {
     try {
@@ -76,6 +75,7 @@ function Home() {
 
   const handleSearch = (searchTerm) => {
     setSearchTerm(searchTerm);
+    fetchMovies(searchTerm);
   };
 
 
